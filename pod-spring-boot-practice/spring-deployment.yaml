@@ -22,7 +22,7 @@ spec:
       # container 정보
       containers:
         - name: spring-container
-          image: spring-server
+          image: spring-server:1.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080

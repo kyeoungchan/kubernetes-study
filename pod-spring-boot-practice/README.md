@@ -88,3 +88,40 @@ spring-deployment-77fb8d465f-cps2h   1/1     Running   0             22m
 spring-deployment-77fb8d465f-kq8s6   1/1     Running   0             100s
 spring-deployment-77fb8d465f-q8ns6   1/1     Running   0             22m
 ```
+
+<br>
+
+## 새로운 버전의 서버로 업데이트 시키기
+
+> [!NOTE]
+> 먼저 서버 코드를 변경시킨다.
+
+```shell
+# Spring 서버 빌드
+$ ./gradlew clean build
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+
+BUILD SUCCESSFUL in 3s
+8 actionable tasks: 8 executed
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.5.1/userguide/configuration_cache_enabling.html
+
+# Docker Image 빌드
+$ docker build -t spring-server:1.0 .
+
+# image 생성 잘 됐는지 확인
+$ docker image ls
+IMAGE               ID             DISK USAGE   CONTENT SIZE   EXTRA
+spring-server:1.0   df34cd288bf6        529MB             0B
+
+# spring-deployment.yaml에 `image: spring-server:1.0`로 변경 후 실행 
+$ kubectl apply -f spring-deployment.yaml
+deployment.apps/spring-deployment configured  
+
+$ kubectl get pods
+NAME                                 READY   STATUS    RESTARTS   AGE
+spring-deployment-5d6cc49766-bggrw   1/1     Running   0          13s
+spring-deployment-5d6cc49766-m4tkp   1/1     Running   0          14s
+spring-deployment-5d6cc49766-xz26t   1/1     Running   0          12s
+```
+
+![service_execute2.png](res/service_execute2.png)
