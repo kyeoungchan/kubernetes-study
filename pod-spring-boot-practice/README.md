@@ -51,3 +51,15 @@ spring-deployment-77fb8d465f-4wzhd   1/1     Running   0          2m
 spring-deployment-77fb8d465f-cps2h   1/1     Running   0          2m
 spring-deployment-77fb8d465f-q8ns6   1/1     Running   0          2m
 ```
+
+## Service
+```shell
+$ kubectl apply -f spring-service.yaml
+service/spring-service created
+
+$ kubectl get service
+NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+kubernetes       ClusterIP   10.96.0.1       <none>        443/TCP          43d
+spring-service   NodePort    10.97.194.183   <none>        8080:30000/TCP   9s
+```
+![service_execute.png](res/service_execute.png)
