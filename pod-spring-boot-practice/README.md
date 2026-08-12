@@ -63,3 +63,28 @@ kubernetes       ClusterIP   10.96.0.1       <none>        443/TCP          43d
 spring-service   NodePort    10.97.194.183   <none>        8080:30000/TCP   9s
 ```
 ![service_execute.png](res/service_execute.png)
+
+### Self Healing
+```shell
+# 컨테이너가 5개 띄어져 있는 상황
+$ docker ps
+CONTAINER ID   IMAGE          COMMAND                CREATED              STATUS              PORTS     NAMES
+b7e152ab4d41   17de0fe96f72   "java -jar /app.jar"   About a minute ago   Up About a minute             k8s_spring-container_spring-deployment-77fb8d465f-bsh9z_default_c93d2667-4717-42bb-add5-f50744eaa66a_0
+5e69d7de6460   17de0fe96f72   "java -jar /app.jar"   About a minute ago   Up About a minute             k8s_spring-container_spring-deployment-77fb8d465f-kq8s6_default_a38d0051-7c1c-4dc9-9676-eb0179a45a09_0
+7489ed141421   17de0fe96f72   "java -jar /app.jar"   21 minutes ago       Up 21 minutes                 k8s_spring-container_spring-deployment-77fb8d465f-q8ns6_default_53b9e467-f987-4b30-96b6-5ae0397e77ac_0
+355875f6f25b   17de0fe96f72   "java -jar /app.jar"   21 minutes ago       Up 21 minutes                 k8s_spring-container_spring-deployment-77fb8d465f-4wzhd_default_4c7b7ae8-a94f-40cf-93ab-f7d4399b9308_0
+36889d9672b6   17de0fe96f72   "java -jar /app.jar"   21 minutes ago       Up 21 minutes                 k8s_spring-container_spring-deployment-77fb8d465f-cps2h_default_6f3669bc-1007-4528-91da-fc5b13de31fc_0
+
+# 하나의 컨테이너를 죽인다.
+$ docker kill b7e152ab4d41
+b7e152ab4d41
+
+# 컨테이너가 자동으로 restart된 것을 확인할 수 있다.
+$ kubectl get pods
+NAME                                 READY   STATUS    RESTARTS      AGE
+spring-deployment-77fb8d465f-4wzhd   1/1     Running   0             22m
+spring-deployment-77fb8d465f-bsh9z   1/1     Running   1 (21s ago)   100s
+spring-deployment-77fb8d465f-cps2h   1/1     Running   0             22m
+spring-deployment-77fb8d465f-kq8s6   1/1     Running   0             100s
+spring-deployment-77fb8d465f-q8ns6   1/1     Running   0             22m
+```
