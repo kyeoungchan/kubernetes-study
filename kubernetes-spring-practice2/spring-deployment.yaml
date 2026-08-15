@@ -29,6 +29,6 @@ spec:
                   key: my-account
             - name: MY_PASSWORD
               valueFrom:
-                configMapKeyRef:
-                  name: spring-config
+                secretKeyRef:
+                  name: spring-secret
                   key: my-password
