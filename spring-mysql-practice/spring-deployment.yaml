@@ -23,12 +23,27 @@ spec:
             - containerPort: 8080
           env:
             - name: DB_HOST
-              value: mysql-service
+              valueFrom:
+                configMapKeyRef:
+                  name: spring-config
+                  key: db-host
             - name: DB_PORT
-              value: "3306"
+              valueFrom:
+                configMapKeyRef:
+                  name: spring-config
+                  key: db-port
             - name: DB_NAME
-              value: kube-practice
+              valueFrom:
+                configMapKeyRef:
+                  name: spring-config
+                  key: db-name
             - name: DB_USERNAME
-              value: root
+              valueFrom:
+                secretKeyRef:
+                  name: spring-secret
+                  key: db-username
             - name: DB_PASSWORD
-              value: password12345
+              valueFrom:
+                secretKeyRef:
+                  name: spring-secret
+                  key: db-password
