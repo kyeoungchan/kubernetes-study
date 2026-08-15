@@ -5,12 +5,11 @@ metadata:
   name: mysql-service
 
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     # pod 명
     app: mysql-db
   ports:
     - protocol: TCP
-      nodePort: 30002
       port: 3306
       targetPort: 3306
