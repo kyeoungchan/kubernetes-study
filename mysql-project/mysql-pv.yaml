@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+
+metadata:
+  name: mysql-pv
+
+spec:
+  storageClassName: my-storage
+  capacity:
+    # Volume으로 차지할 용량 명시
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    # 쿠버네티스의 내부 공간 경로
+    path: "/mnt/data"

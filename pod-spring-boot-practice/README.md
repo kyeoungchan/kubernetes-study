@@ -125,3 +125,22 @@ spring-deployment-5d6cc49766-xz26t   1/1     Running   0          12s
 ```
 
 ![service_execute2.png](res/service_execute2.png)
+
+
+```shell
+# 이전에 띄어놓은 쿠버네티스 deploy나 service 등 삭제
+$ kubectl delete all --all
+
+# pod 조회
+$  kubectl get pods
+No resources found in default namespace.
+
+# service 조회
+$ kubectl get service
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   72m
+
+# deployment 조회
+$ kubectl get deployment
+No resources found in default namespace.
+```
